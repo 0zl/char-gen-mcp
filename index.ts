@@ -65,7 +65,7 @@ server.registerTool(
             'Note: Japanese names are returned in traditional format (family name before given name), ' +
             'while Western names use the standard format (given name before family name). ' +
             'The returned firstName field always contains the actual given name, and lastName contains the family name.',
-        inputSchema: {
+        inputSchema: z.object({
             languageDemography: z.enum(personNameDemographic)
                 .describe(
                     `The cultural/linguistic background for the character's name. ` +
@@ -81,8 +81,8 @@ server.registerTool(
                 )
                 .default(false)
                 .optional()
-        },
-        outputSchema: {
+        }),
+        outputSchema: z.object({
             firstName: z.string()
                 .describe(
                     'The given name (first name) of the generated character. ' +
@@ -97,7 +97,7 @@ server.registerTool(
                     'which is traditionally placed before the given name in Japanese text.'
                 )
                 .optional()
-        }
+        })
     },
     async (input) => {
         const { languageDemography, omitLastName = false } = input
